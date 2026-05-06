@@ -12,6 +12,7 @@ import {
 } from "fastify-type-provider-zod";
 
 import { homeRoutes } from "./routes/home.js";
+import { calculationRoutes } from "./routes/Calculator.js";
 
 const app = Fastify({ logger: true });
 
@@ -21,7 +22,7 @@ app.setSerializerCompiler(serializerCompiler);
 await app.register(fastifySwagger, {
   openapi: {
     info: {
-      title: "Meu API",
+      title: "Calculator API",
       version: "1.0.0",
     },
   },
@@ -38,7 +39,7 @@ await app.register(fastifyApiReference, {
   configuration: {
     sources: [
       {
-        title: "Meu API",
+        title: "Calculator API",
         url: "/swagger.json",
       },
     ],
@@ -46,6 +47,7 @@ await app.register(fastifyApiReference, {
 });
 
 await app.register(homeRoutes, { prefix: "/home" });
+await app.register(calculationRoutes, { prefix: "/calculation" });
 
 app.withTypeProvider<ZodTypeProvider>().route({
   method: "GET",

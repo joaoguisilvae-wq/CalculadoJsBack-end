@@ -9,11 +9,11 @@ export const homeRoutes = async (app: FastifyInstance) => {
     schema: {
       tags: ["Home"],
       response: {
-        200: z.object({ message: z.string() }),
+        200: z.object({ status: z.string(), message: z.string() }),
       },
     },
     handler: async (request, reply) => {
-      return { message: "Hello world" };
+      return { status: "200", message: "Hello world" };
     },
   });
 };
