@@ -12,17 +12,18 @@ datasource db {
 }
 
 model Operation {
-  id        Int     @id @default(autoincrement())
-  previousValue Float
-  currentValue  Float
-  symbol        String  
-  result        Float
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  userId     String
+  expression String
+  symbol     String
+  result     Float
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
 }
 
 model ConversionType {
   id        Int    @id @default(autoincrement())
-  name      String @unique // "comprimento", "peso", "temperatura"
+  name      String @unique
   label     String
   units     ConversionUnit[]
 }
@@ -31,16 +32,16 @@ model ConversionUnit {
   id              Int              @id @default(autoincrement())
   conversionTypeId Int
   conversionType  ConversionType   @relation(fields: [conversionTypeId], references: [id])
-  unit            String           // "km", "m", "mm", etc
-  label           String           // "Quilômetro", "Metro"
-  rate            Float            // Taxa de conversão para unidade base
+  unit            String   
+  label           String           
+  rate            Float            
   createdAt       DateTime         @default(now())
 }
 
 model ExchangeRate {
   id        Int     @id @default(autoincrement())
-  currency  String  @unique // "USD", "BRL", "EUR"
-  rate      Float   // Taxa em relação a uma moeda base (USD)
+  currency  String  @unique 
+  rate      Float   
   label     String
   updatedAt DateTime @updatedAt
 }
