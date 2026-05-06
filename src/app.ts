@@ -55,4 +55,4 @@ app.withTypeProvider<ZodTypeProvider>().route({
   handler: async () => app.swagger(),
 });
 
-await app.listen({ port: Number(process.env.PORT) || 8080 });
+await app.listen({ port: Number(process.env.PORT) || 8080, host: "0.0.0.0" });

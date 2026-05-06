@@ -1,7 +1,5 @@
 import { prisma } from "../lib/db";
 
-// ---- Helpers de avaliação ----
-
 const factorial = (n: number): number => {
   if (n < 0) return NaN;
   if (n === 0 || n === 1) return 1;
@@ -93,8 +91,6 @@ const extractPrimarySymbol = (expression: string): string => {
   if (/\//.test(expression)) return "/";
   return "unknown";
 };
-
-// ---- Use case ----
 
 export interface GetCalculationInput {
   expression: string;
