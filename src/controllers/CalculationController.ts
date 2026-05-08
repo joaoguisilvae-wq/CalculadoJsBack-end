@@ -1,4 +1,4 @@
-import { GetCalculation } from "../usecases/GetCalculation";
+import { GetCalculation } from "../usecases/MakeCalculation";
 
 interface HandleInput {
   expression: string;
