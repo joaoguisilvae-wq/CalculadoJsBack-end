@@ -15,7 +15,6 @@ model Operation {
   id         Int      @id @default(autoincrement())
   userId     String
   expression String
-  symbol     String
   result     Float
   isActive   Boolean  @default(true)
   createdAt  DateTime @default(now())
