@@ -1,4 +1,4 @@
-import { GetCalculation } from "../usecases/MakeCalculation";
+import { MakeCalculation } from "../usecases/MakeCalculation";
 
 interface HandleInput {
   expression: string;
@@ -7,7 +7,7 @@ interface HandleInput {
 }
 
 export class CalculationController {
-  private useCase = new GetCalculation();
+  private useCase = new MakeCalculation();
 
   public async handle(input: HandleInput) {
     return this.useCase.execute(input);

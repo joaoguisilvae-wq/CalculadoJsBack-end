@@ -13,6 +13,7 @@ import {
 
 import { homeRoutes } from "./routes/home.js";
 import { calculationRoutes } from "./routes/Calculator.js";
+import { conversorsRoutes } from "./routes/Conversors.js";
 
 const app = Fastify({ logger: true });
 
@@ -48,6 +49,7 @@ await app.register(fastifyApiReference, {
 
 await app.register(homeRoutes, { prefix: "/home" });
 await app.register(calculationRoutes, { prefix: "/calculation" });
+await app.register(await conversorsRoutes, { prefix: "/conversors" });
 
 app.withTypeProvider<ZodTypeProvider>().route({
   method: "GET",

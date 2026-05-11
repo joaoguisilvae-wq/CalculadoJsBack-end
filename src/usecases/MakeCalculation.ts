@@ -1,4 +1,3 @@
-import { Operation } from "../generated/prisma";
 import { prisma } from "../lib/db";
 
 const factorial = (n: number): number => {
@@ -79,20 +78,6 @@ const evaluateExpression = (
   }
 };
 
-const extractPrimarySymbol = (expression: string): string => {
-  if (/asin|acos|atan/.test(expression)) return "arc-trig";
-  if (/sin|cos|tan/.test(expression)) return "trig";
-  if (/lg|ln/.test(expression)) return "log";
-  if (/√/.test(expression)) return "sqrt";
-  if (/\^/.test(expression)) return "pow";
-  if (/!/.test(expression)) return "factorial";
-  if (/\+/.test(expression)) return "+";
-  if (/-/.test(expression)) return "-";
-  if (/\*/.test(expression)) return "*";
-  if (/\//.test(expression)) return "/";
-  return "unknown";
-};
-
 export interface GetCalculationInput {
   expression: string;
   userId: string;
@@ -111,10 +96,9 @@ export class MakeCalculation {
     const { expression, userId, angleMode } = input;
 
     const result = evaluateExpression(expression, angleMode);
-    const symbol = extractPrimarySymbol(expression);
 
     const existingOperation = await prisma.operation.findFirst({
-      where: { userId, symbol, isActive: true },
+      where: { userId, isActive: true },
       orderBy: { createdAt: "desc" },
     });
 
@@ -130,7 +114,6 @@ export class MakeCalculation {
         data: {
           userId,
           expression,
-          symbol,
           result,
           isActive: true,
         },

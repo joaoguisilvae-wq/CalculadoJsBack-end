@@ -7,7 +7,6 @@ type GetCalculationsByUserIdInput = {
 type GetCalculationsByUserIdOutput = {
   operations: {
     id: number;
-    symbol: string;
     result: number;
     expression: string;
     createdAt: Date;
