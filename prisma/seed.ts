@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../src/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const prisma = new PrismaClient({
@@ -436,14 +436,40 @@ async function main() {
     { currency: "ZWL", label: "Dólar zimbabuano (2009)" },
   ];
 
+  const moedaType = await prisma.conversionType.upsert({
+    where: { name: "moeda" },
+    update: { label: "Moeda" },
+    create: {
+      name: "moeda",
+      label: "Moeda",
+    },
+  });
+
   for (const moeda of moedas) {
-    await prisma.exchangeRate.upsert({
-      where: { currency: moeda.currency },
-      update: { label: moeda.label },
-      create: {
-        currency: moeda.currency,
+    const existingUnit = await prisma.conversionUnit.findFirst({
+      where: {
+        conversionTypeId: moedaType.id,
+        unit: moeda.currency,
+      },
+    });
+
+    if (existingUnit) {
+      await prisma.conversionUnit.update({
+        where: { id: existingUnit.id },
+        data: {
+          label: moeda.label,
+          rate: 0,
+        },
+      });
+      continue;
+    }
+
+    await prisma.conversionUnit.create({
+      data: {
+        conversionTypeId: moedaType.id,
+        unit: moeda.currency,
         label: moeda.label,
-        rate: 0, // Será atualizado pela API
+        rate: 0,
       },
     });
   }
