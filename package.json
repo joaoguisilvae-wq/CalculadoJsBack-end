@@ -25,27 +25,27 @@
     "@fastify/swagger": "^9.7.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@scalar/fastify-api-reference": "^1.55.2",
-    "dayjs": "^1.11.20",
+    "@scalar/fastify-api-reference": "^1.61.0",
+    "dayjs": "^1.11.21",
     "dotenv": "^17.4.2",
     "fastify": "^5.8.5",
     "fastify-type-provider-zod": "^6.1.0",
-    "pg": "^8.20.0",
+    "pg": "^8.22.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.9.4",
     "@types/pg": "^8.20.0",
-    "eslint": "^10.3.0",
+    "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "^13.0.0",
-    "globals": "^17.6.0",
-    "prettier": "^3.8.3",
+    "globals": "^17.7.0",
+    "prettier": "^3.8.4",
     "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.2"
+    "typescript-eslint": "^8.62.0"
   }
 }

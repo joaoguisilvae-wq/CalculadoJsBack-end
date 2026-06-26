@@ -5,6 +5,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -35,12 +36,4 @@ model ConversionUnit {
   label           String           
   rate            Float            
   createdAt       DateTime         @default(now())
-}
-
-model ExchangeRate {
-  id        Int     @id @default(autoincrement())
-  currency  String  @unique 
-  rate      Float   
-  label     String
-  updatedAt DateTime @updatedAt
 }

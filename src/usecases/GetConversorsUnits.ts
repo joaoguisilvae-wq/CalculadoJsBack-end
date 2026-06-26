@@ -1,3 +1,4 @@
+import { invalidConversorIdError } from "../errors";
 import { prisma } from "../lib/db";
 
 type getConversorsUnitsInput = {
@@ -15,10 +16,16 @@ export class GetAllConversorsUnits {
     input: getConversorsUnitsInput,
   ): Promise<GetConversorsUnitsOutput[]> {
     const { conversionTypeId } = input;
+
     const conversionUnits = await prisma.conversionUnit.findMany({
       where: { conversionTypeId },
       orderBy: { createdAt: "desc" },
     });
+
+    if (conversionUnits.length === 0) {
+      throw new invalidConversorIdError("Invalid conversionTypeId");
+    }
+
     return conversionUnits.map((u) => ({
       unit: u.unit,
       label: u.label,

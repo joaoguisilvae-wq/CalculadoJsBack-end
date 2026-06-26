@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
+import { invalidConversorIdError } from "../errors";
 import { GetAllConversors } from "../usecases/GetConversor";
 import { GetAllConversorsUnits } from "../usecases/GetConversorsUnits";
 
@@ -33,7 +34,7 @@ export const conversorsRoutes = async (app: FastifyInstance) => {
     schema: {
       tags: ["Conversors"],
       querystring: z.object({
-        conversionTypeId: z.number(),
+        conversionTypeId: z.coerce.number().int(),
       }),
       response: {
         200: z.array(
@@ -43,13 +44,26 @@ export const conversorsRoutes = async (app: FastifyInstance) => {
             rate: z.number(),
           }),
         ),
+        400: z.object({
+          errorStatus: z.number(),
+          error: z.string(),
+        }),
       },
     },
     handler: async (request, reply) => {
-      const { conversionTypeId } = request.query;
-      const useCase = new GetAllConversorsUnits();
-      const result = await useCase.execute({ conversionTypeId });
-      return reply.status(200).send(result);
+      try {
+        const { conversionTypeId } = request.query;
+        const useCase = new GetAllConversorsUnits();
+        const result = await useCase.execute({ conversionTypeId });
+        return reply.status(200).send(result);
+      } catch (error) {
+        if (error instanceof invalidConversorIdError) {
+          return reply
+            .status(400)
+            .send({ errorStatus: 400, error: error.message });
+        }
+        throw error;
+      }
     },
   });
 };
